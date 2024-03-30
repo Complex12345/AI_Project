@@ -114,7 +114,7 @@ public class Hospital extends JPanel implements Runnable{
         movePatient();
         moveDoctor();
         fillTreatmentRoom();
-        if(randomSpawn.nextInt(1000) < 100){
+        if(randomSpawn.nextInt(1000) < 50){
             spawnPatient();
         }
 
@@ -124,7 +124,15 @@ public class Hospital extends JPanel implements Runnable{
     public void spawnPatient(){
         Random rand = new Random();
         if(waitingRoom.size() < waitingRoomSize){
-            int sick_level = rand.nextInt(3) + 1;
+            int sick_level =1;
+            int sickRange = rand.nextInt(30) + 1;
+            if(sickRange <= 10){
+                sick_level = 1;
+            }else if(sickRange <= 20){
+                sick_level = 2;
+            }else{
+                sick_level = 3;
+            }
             waitingRoom.add(new Patient(patientCount , sick_level));
             patientCount++;
         }
