@@ -186,6 +186,7 @@ public class Hospital extends JPanel implements Runnable{
                             tempDoctorList.add(potentialDoctor); 
                         }
                     }
+                    //some comments
                     DoctorRoom.addAll(tempDoctorList);
                     if (!suitableDoctorFound) {
                         System.out.println("No suitable doctor found for the patient. Trying next patient.");
