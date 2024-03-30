@@ -3,17 +3,28 @@ import java.awt.*;
 public class Doctor {
     int Id;
     boolean isAvailable;
+    int treat_level;
     int x,y;
 
-    public Doctor(int Id){
+    public Doctor(int Id , int treat_level){
         this.Id = Id;
+        this.treat_level = treat_level;
         this.isAvailable = true;
         this.x = 0;
         this.y = 60;
     }
 
     public void paint(Graphics g){
-        g.setColor(Color.BLUE);
+
+        if(this.treat_level == 1){
+            g.setColor(Color.YELLOW);
+        }
+        else if(this.treat_level == 2){
+        g.setColor(Color.ORANGE);
+        }
+        else if(this.treat_level == 3){
+            g.setColor(Color.RED);
+        }
         // Draw the head
         g.drawOval(x, y, 10, 10); // reduced size
         // Draw the body

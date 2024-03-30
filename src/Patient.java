@@ -4,11 +4,13 @@ public class Patient {
     int x,y;
     int Id;
     int vx;
+    int sickness_level;
 
-    public Patient(int Id){
+    public Patient(int Id , int sickness_level){
         this.Id = Id;
         this.x = 10;
         this.y = 10;
+        this.sickness_level = sickness_level;
     }
 
     public int getId() {
@@ -40,7 +42,15 @@ public class Patient {
 
 
     public void paint(Graphics g){
+        if(this.sickness_level == 1){
+            g.setColor(Color.YELLOW);
+        }
+        else if(this.sickness_level == 2){
+            g.setColor(Color.ORANGE);
+        }
+        else if(this.sickness_level == 3){
         g.setColor(Color.RED);
+        }
         // Draw the head
         g.drawOval(x, y, 10, 10); // reduced size
         // Draw the body

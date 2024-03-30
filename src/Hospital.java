@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Hospital extends JPanel implements Runnable{
     Thread thread = new Thread(this);
@@ -15,6 +16,7 @@ public class Hospital extends JPanel implements Runnable{
     static int DoctorRoomSize = 10;
     static int DoctorCount = 0;
     static int time = 0;
+    Random randomSpawn = new Random();
 
     public Hospital(){
         setLayout(null);
@@ -112,23 +114,44 @@ public class Hospital extends JPanel implements Runnable{
         movePatient();
         moveDoctor();
         fillTreatmentRoom();
+        if(randomSpawn.nextInt(1000) < 100){
+            spawnPatient();
+        }
 
         emptyRoom();
     }
 
     public void spawnPatient(){
+        Random rand = new Random();
         if(waitingRoom.size() < waitingRoomSize){
-            waitingRoom.add(new Patient(patientCount));
+            int sick_level = rand.nextInt(3) + 1;
+            waitingRoom.add(new Patient(patientCount , sick_level));
             patientCount++;
         }
         System.out.println(waitingRoom.getLast());
     }
 
-    public void spawnDoctor(){
-        for(int i = 0; i < DoctorRoomSize; i++){
-            DoctorRoom.add(new Doctor(i));
+    public void spawnDoctor() {
+        Random rand = new Random();
+
+        DoctorRoom.clear(); 
+        for (int i = 0; i < DoctorRoomSize; i++) {
+            int treat_level = rand.nextInt(3) + 1; 
+            DoctorRoom.add(new Doctor(i, treat_level)); 
         }
+        boolean isLevel1 = false, isLevel2 = false, isLevel3 = false;
+        for (Doctor doctor : DoctorRoom) {
+            switch (doctor.treat_level) {
+                case 1: isLevel1 = true; break;
+                case 2: isLevel2 = true; break;
+                case 3: isLevel3 = true; break;
+            }
+        }
+        if (!isLevel1) DoctorRoom.add(new Doctor(DoctorRoomSize++, 1));
+        if (!isLevel2) DoctorRoom.add(new Doctor(DoctorRoomSize++, 2));
+        if (!isLevel3) DoctorRoom.add(new Doctor(DoctorRoomSize++, 3));
     }
+    
 
     public void spawnTreatmentRoom(){
         int x = 1;
@@ -143,19 +166,40 @@ public class Hospital extends JPanel implements Runnable{
             }
         }
     }
+
     public void fillTreatmentRoom() {
         for(int i = 0; i < treatmentRoom.length; i++) {
             if (treatmentRoom[i].patient == null && treatmentRoom[i].doctor == null) {
-                if (!waitingRoom.isEmpty() && !DoctorRoom.isEmpty()) {
-                    treatmentRoom[i].patient = waitingRoom.removeFirst();
-                    treatmentRoom[i].doctor = DoctorRoom.removeFirst();
+                if (!waitingRoom.isEmpty()) {
+                    Patient potentialPatient = waitingRoom.peekFirst(); 
+                    boolean suitableDoctorFound = false;
+                    LinkedList<Doctor> tempDoctorList = new LinkedList<>();
+                    // Check if there is a doctor that can treat the patient
+                    while (!DoctorRoom.isEmpty() && !suitableDoctorFound) {
+                        Doctor potentialDoctor = DoctorRoom.removeFirst(); 
+                        if(potentialPatient.sickness_level <= potentialDoctor.treat_level) {
+                            System.out.println("Filling Treatment Room");
+                            treatmentRoom[i].patient = waitingRoom.removeFirst();
+                            treatmentRoom[i].doctor = potentialDoctor;
+                            suitableDoctorFound = true;
+                        } else {
+                            tempDoctorList.add(potentialDoctor); 
+                        }
+                    }
+                    DoctorRoom.addAll(tempDoctorList);
+                    if (!suitableDoctorFound) {
+                        System.out.println("No suitable doctor found for the patient. Trying next patient.");
+                        waitingRoom.addLast(waitingRoom.removeFirst());
+                    }
                 }
             }
         }
     }
+    
+    
     public void emptyRoom(){
         for(int i = 0; i < treatmentRoom.length; i++){
-            if(treatmentRoom[i].loadingBar > 50){
+            if(treatmentRoom[i].loadingBar >= 50){
                 treatmentRoom[i].patient = null;
                 treatmentRoom[i].doctor.setY(60);
                 treatmentRoom[i].doctor.setX(10000);
@@ -204,7 +248,6 @@ public class Hospital extends JPanel implements Runnable{
                 time++;
                 timer += 1000;
                 startTreatment();
-                spawnPatient();
                 //System.out.println("Updates per second: " + updatesCounter + ", Frames per second: " + framesCounter);
                 updatesCounter = 0;
                 framesCounter = 0;

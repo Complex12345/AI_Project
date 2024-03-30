@@ -20,7 +20,7 @@ public class TreatmentRoom {
         occupied = false;
     }
     public void load(){
-        loadingBar +=10;
+        loadingBar +=50;
     }
     public void reset(){
         loadingBar = 1;
