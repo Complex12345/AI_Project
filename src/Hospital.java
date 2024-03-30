@@ -28,10 +28,10 @@ public class Hospital extends JPanel implements Runnable{
 
     public void paint(Graphics g){
         super.paint(g);
-        g.drawString("Time: " + time, 1100, 20);
-        g.drawString("Patients Treated: " + treatedPatients, 1100 - 62, 40);
+        g.drawString("Time: " + time, 950, 120);
+        g.drawString("Patients Treated: " + treatedPatients, 950 - 62, 140);
+        if(time != 0) g.drawString("Treatment Rate: " +  String.format("%.2f", (double)treatedPatients / (double)time), 950 - 68, 160);
 
-        if(time != 0) g.drawString("Treatment Rate: " +  String.format("%.2f", (double)treatedPatients / (double)time), 1100 - 62, 60);
         waitingRoom(g);
         DoctorRoom(g);
         paintTreatmentRoom(g);
