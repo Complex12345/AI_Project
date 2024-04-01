@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 public class TreatmentRoom {
     int x,y, loadingBar;
@@ -20,7 +21,8 @@ public class TreatmentRoom {
         occupied = false;
     }
     public void load(){
-        loadingBar +=50;
+        Random random = new Random();
+        loadingBar += random.nextInt(15, 25);
     }
     public void reset(){
         loadingBar = 1;

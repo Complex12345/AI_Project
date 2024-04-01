@@ -8,7 +8,7 @@ public class Patient {
 
     public Patient(int Id , int sickness_level){
         this.Id = Id;
-        this.x = 10;
+        this.x = -20;
         this.y = 10;
         this.sickness_level = sickness_level;
     }
@@ -60,7 +60,7 @@ public class Patient {
         // Draw the legs
         g.drawLine(x + 5, y + 25, x - 5, y + 35); // reduced length
         g.drawLine(x + 5, y + 25, x + 15, y + 35); // reduced length
-        g.drawRect(x-5, y, 20, 35);
+        //g.drawRect(x-5, y, 20, 35);
         Font font = new Font("Arial", Font.PLAIN, 10); // Create new font with smaller size
         g.setFont(font); // Set the font
         g.drawString("P"+Id,x,y);

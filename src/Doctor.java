@@ -34,7 +34,7 @@ public class Doctor {
         // Draw the legs
         g.drawLine(x + 5, y + 25, x - 5, y + 35); // reduced length
         g.drawLine(x + 5, y + 25, x + 15, y + 35); // reduced length
-        g.drawRect(x-5, y, 20, 35);
+        //g.drawRect(x-5, y, 20, 35);
         Font font = new Font("Arial", Font.PLAIN, 10); // Create new font with smaller size
         g.setFont(font); // Set the font
 

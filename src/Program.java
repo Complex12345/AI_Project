@@ -18,7 +18,7 @@ public class Program {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.21;
-        frame.add(new SideMenu(), gbc);
+        //frame.add(new SideMenu(), gbc);
         gbc.weightx = 0.75;
         gbc.weighty = 1;
         frame.add(new Hospital(),gbc);

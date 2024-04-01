@@ -8,14 +8,18 @@ public class Hospital extends JPanel implements Runnable{
     Thread thread = new Thread(this);
     LinkedList<Patient> waitingRoom = new LinkedList<>();
     LinkedList<Doctor> DoctorRoom = new LinkedList<>();
-    TreatmentRoom[] treatmentRoom = new TreatmentRoom[15];
+    TreatmentRoom[] treatmentRoom = new TreatmentRoom[5];
 
     static int waitingRoomSize = 10;
+    static int mildPatient = 0;
+    static int moderatePatient = 0;
+    static int severePatient = 0;
     static int patientCount = 0;
     static int treatedPatients = 0;
     static int DoctorRoomSize = 10;
     static int DoctorCount = 0;
     static int time = 0;
+
     Random randomSpawn = new Random();
 
     public Hospital(){
@@ -33,6 +37,9 @@ public class Hospital extends JPanel implements Runnable{
         g.drawString("Time: " + time, 950, 120);
         g.drawString("Patients Treated: " + treatedPatients, 950 - 62, 140);
         if(time != 0) g.drawString("Treatment Rate: " +  String.format("%.2f", (double)treatedPatients / (double)time), 950 - 68, 160);
+        if(time != 0) g.drawString("Mild Patients: " + mildPatient + " (" + String.format("%.2f", (double)mildPatient / (double)time) + ")", 950 - 75, 180);
+        if(time != 0) g.drawString("Moderate Patients: " + moderatePatient + " (" + String.format("%.2f", (double)moderatePatient / (double)time) + ")", 950 - 95, 200);
+        if(time != 0) g.drawString("Severe Patients: " + severePatient + " (" + String.format("%.2f", (double)severePatient / (double)time) + ")", 950 - 85, 220);
 
         waitingRoom(g);
         DoctorRoom(g);
@@ -209,6 +216,15 @@ public class Hospital extends JPanel implements Runnable{
     public void emptyRoom(){
         for(int i = 0; i < treatmentRoom.length; i++){
             if(treatmentRoom[i].loadingBar >= 50){
+                if(treatmentRoom[i].patient.sickness_level == 1) {
+                    mildPatient++;
+                }
+                else if(treatmentRoom[i].patient.sickness_level == 2) {
+                    moderatePatient++;
+                }
+                else if(treatmentRoom[i].patient.sickness_level == 3) {
+                    severePatient++;
+                }
                 treatmentRoom[i].patient = null;
                 treatmentRoom[i].doctor.setY(60);
                 treatmentRoom[i].doctor.setX(10000);
