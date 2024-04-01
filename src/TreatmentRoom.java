@@ -22,7 +22,7 @@ public class TreatmentRoom {
         occupied = false;
     }
     public void load(){
-        loadingBar += random.nextInt(15, 25);
+        loadingBar += random.nextInt(35);
     }
     public void reset(){
         loadingBar = 1;
