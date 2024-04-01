@@ -4,7 +4,7 @@ import java.awt.*;
 public class Program {
     JFrame frame;
 
-    private static final int DEFAULT_WIDTH = 1300;
+    private static final int DEFAULT_WIDTH = 1050;
     private static final int DEFAULT_HEIGHT = 800;
 
     public Program(){
