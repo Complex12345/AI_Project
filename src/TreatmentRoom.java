@@ -6,6 +6,7 @@ public class TreatmentRoom {
     boolean occupied = false;
     Patient patient;
     Doctor doctor;
+    Random random = new Random();
 
     public TreatmentRoom(int x, int y){
         this.x = x;
@@ -21,7 +22,6 @@ public class TreatmentRoom {
         occupied = false;
     }
     public void load(){
-        Random random = new Random();
         loadingBar += random.nextInt(15, 25);
     }
     public void reset(){
